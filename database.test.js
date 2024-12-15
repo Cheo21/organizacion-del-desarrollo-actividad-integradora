@@ -126,6 +126,18 @@ describe('Test database', () => {
       await expect(client.query(query)).rejects.toThrow('users_email_check')
     })
 
+    //Añadida
+    test('Insert a user without email', async () => {
+      const query = `INSERT INTO
+                      users (email, username, birthdate, city)
+                      VALUES ('', 'user', '2024-01-02', 'La Plata')`
+      await expect(client.query(query)).rejects.toThrow('users_email_check')
+
+    })
+
+    
+
+
     test('Insert a user with an invalid birthdate', async () => {
       const query = `INSERT INTO
                      users (email, username, birthdate, city)
