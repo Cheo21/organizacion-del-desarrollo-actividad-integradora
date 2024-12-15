@@ -126,7 +126,7 @@ describe('Test database', () => {
       await expect(client.query(query)).rejects.toThrow('users_email_check')
     })
 
-    //Añadida
+    //Añadidas
     test('Insert a user without email', async () => {
       const query = `INSERT INTO
                       users (email, username, birthdate, city)
@@ -135,6 +135,22 @@ describe('Test database', () => {
 
     })
 
+
+    test('Insert a user with email to long', async () => {
+      const query = `INSERT INTO
+                      users (email, username, birthdate, city)
+                      VALUES ('estoesunmailmuylargosesuponequedebedeserdee30@mascosasdelotrolado.com', 'user', '2024-01-02', 'La Plata')`
+      await expect(client.query(query)).rejects.toThrow('value too long for type character varying(50)')
+
+    })
+
+    test('Insert a user with only @ in the email field', async () => {
+      const query = `INSERT INTO
+                      users (email, username, birthdate, city)
+                      VALUES ('@', 'user', '2024-01-02', 'La Plata')`
+      await expect(client.query(query)).rejects.toThrow('users_email_check')
+
+    })
     
 
 
