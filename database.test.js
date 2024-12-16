@@ -153,6 +153,34 @@ describe('Test database', () => {
     })
     
 
+    test('Insert a user without name', async() => {
+      const query = `INSERT INTO
+                      users (email, username, birthdate, city)
+                      VALUES ('ejemplo@test.com', 'pepe21', '2024-05-4', 'la plata')`
+      await expect(client.query(query)).toThrow('null value in column "name"')
+    })
+
+    test('Insert a user without name', async() => {
+      const query = `INSERT INTO
+                      users (email, username, birthdate, city)
+                      VALUES ('ejemplo@test.com', 'pepe21', '2024-05-4', 'la plata')`
+      await expect(client.query(query)).toThrow('null value in column "name"')
+    })
+    
+    test('Insert a user with a name shorter than 3 characters', async() => {
+      const query = `INSERT INTO
+                      users (email, username, birthdate, city)
+                      VALUES ('ejemplo@test.com', 'pe', '2024-05-4', 'la plata')`
+      await expect(client.query(query)).toThrow('value for domain user.name violates check constraint "username_length" SQL')
+    })
+   
+    test('Insert a user with a name containing numbers', async() => {
+      const query = `INSERT INTO
+                      users (email, username, birthdate, city)
+                      VALUES ('ejemplo@test.com', 'pepe21', '2024-05-4', 'la plata')`
+      await expect(client.query(query)).toThrow('value for domain user.name violates check constraint "username_type SQL')
+    })
+
 
     test('Insert a user with an invalid birthdate', async () => {
       const query = `INSERT INTO
