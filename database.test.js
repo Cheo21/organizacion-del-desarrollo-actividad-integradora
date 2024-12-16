@@ -153,6 +153,20 @@ describe('Test database', () => {
     })
     
 
+    test('Insert a user without name', async() => {
+      const query = `INSERT INTO
+                      users (email, username, birthdate, city)
+                      VALUES ('ejemplo@test.com', 'pepe21', '2024-05-4', 'la plata')`
+      await expect(client.query(query)).toThrow('null value in column "name"')
+    })
+
+    test('Insert a user without name', async() => {
+      const query = `INSERT INTO
+                      users (email, username, birthdate, city)
+                      VALUES ('ejemplo@test.com', 'pepe21', '2024-05-4', 'la plata')`
+      await expect(client.query(query)).toThrow('null value in column "name"')
+    })
+
 
     test('Insert a user with an invalid birthdate', async () => {
       const query = `INSERT INTO
