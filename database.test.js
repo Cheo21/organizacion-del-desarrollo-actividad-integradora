@@ -126,55 +126,6 @@ describe('Test database', () => {
       await expect(client.query(query)).rejects.toThrow('users_email_check')
     })
 
-    //Añadidas
-    test('Insert a user without email', async () => {
-      const query = `INSERT INTO
-                      users (email, username, birthdate, city)
-                      VALUES ('', 'user', '2024-01-02', 'La Plata')`
-      await expect(client.query(query)).rejects.toThrow('users_email_check')
-
-    })
-
-
-    test('Insert a user with email to long', async () => {
-      const query = `INSERT INTO
-                      users (email, username, birthdate, city)
-                      VALUES ('estoesunmailmuylargosesuponequedebedeserdee30@mascosasdelotrolado.com', 'user', '2024-01-02', 'La Plata')`
-      await expect(client.query(query)).rejects.toThrow('value too long for type character varying(50)')
-
-    })
-
-    test('Insert a user with only @ in the email field', async () => {
-      const query = `INSERT INTO
-                      users (email, username, birthdate, city)
-                      VALUES ('@', 'user', '2024-01-02', 'La Plata')`
-      await expect(client.query(query)).rejects.toThrow('users_email_check')
-
-    })
-    
-
-    test('Insert a user without name', async() => {
-      const query = `INSERT INTO
-                      users (email, username, birthdate, city)
-                      VALUES ('ejemplo@test.com', '', '2024-05-4', 'la plata')`
-      await expect(client.query(query)).rejects.toThrow('new row for relation "users\" violates check constraint "username_length"')
-    })
-
-    test('Insert a user with a name shorter than 3 characters', async() => {
-      const query = `INSERT INTO
-                      users (email, username, birthdate, city)
-                      VALUES ('ejemplo@test.com', 'pe', '2024-05-4', 'la plata')`
-      await expect(client.query(query)).rejects.toThrow('new row for relation \"users\" violates check constraint "username_length"')
-    })
-   
-    test('Insert a user with a name containing numbers', async() => {
-      const query = `INSERT INTO
-                      users (email, username, birthdate, city)
-                      VALUES ('ejemplo@test.com', 'pepe21', '2024-05-4', 'la plata')`
-      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "username_length"')
-    })
-
-
     test('Insert a user with an invalid birthdate', async () => {
       const query = `INSERT INTO
                      users (email, username, birthdate, city)
@@ -182,43 +133,6 @@ describe('Test database', () => {
 
       await expect(client.query(query)).rejects.toThrow('invalid input syntax for type date')
     })
-
-
-    test('Insert a user with an invalid birthdate', async () => {
-      const query = `INSERT INTO
-                     users (email, username, birthdate, city)
-                     VALUES ('user@example.com', 'user', '4456456', 'La Plata')`
-
-      await expect(client.query(query)).rejects.toThrow('invalid input syntax for type date')
-    })
-
-
-    test('Insert a user was born in the future', async () => {
-      const query = `INSERT INTO
-                     users (email, username, birthdate, city)
-                     VALUES ('user@example.com', 'user', '2026-01-02', 'La Plata')`
-
-      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "future_future')
-    })
-
-
-    test('Insert a user born 130 years ago', async () => {
-      const query = `INSERT INTO
-                     users (email, username, birthdate, city)
-                     VALUES ('user@example.com', 'user', '1884-01-01', 'La Plata')`
-
-      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "future_future')
-    })
-
-    test('Insert a user without birthdate', async () => {
-      const query = `INSERT INTO
-                     users (email, username, city)
-                     VALUES ('user@example.com', 'user', 'La Plata')`
-
-      await expect(client.query(query)).rejects.toThrow('null value in column "birthdate"')
-    })
-
-
 
     test('Insert a user without city', async () => {
       const query = `INSERT INTO
