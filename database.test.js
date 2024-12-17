@@ -227,5 +227,14 @@ describe('Test database', () => {
 
       await expect(client.query(query)).rejects.toThrow('null value in column "city"')
     })
+
+    test('Insert a user wit city with numbers', async () => {
+      const query = `INSERT INTO
+                     users (email, username, birthdate, city)
+                     VALUES ('user@example.com', 'user', '2024-01-02', '4468')`
+
+      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "birthdate_numbers"')
+    })
+
   })
 })
