@@ -46,4 +46,8 @@ table "users" {
     expr = "username !~ '[0-9]'"
   }
 
+  check "city_with_number" {
+    expr = "city !~ '[0-9]'"
+  }
+
 }
