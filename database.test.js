@@ -171,7 +171,7 @@ describe('Test database', () => {
       const query = `INSERT INTO
                       users (email, username, birthdate, city)
                       VALUES ('ejemplo@test.com', 'pepe21', '2024-05-4', 'la plata')`
-      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "username_length"')
+      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "username_with_number')
     })
 
 
