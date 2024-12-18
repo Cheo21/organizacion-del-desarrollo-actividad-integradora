@@ -171,7 +171,7 @@ describe('Test database', () => {
       const query = `INSERT INTO
                       users (email, username, birthdate, city)
                       VALUES ('ejemplo@test.com', 'pepe21', '2024-05-4', 'la plata')`
-      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "username_length"')
+      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "username_with_number')
     })
 
 
@@ -187,9 +187,18 @@ describe('Test database', () => {
     test('Insert a user with an invalid birthdate', async () => {
       const query = `INSERT INTO
                      users (email, username, birthdate, city)
-                     VALUES ('user@example.com', 'user', '4456456', 'La Plata')`
+                     VALUES ('user@example.com', 'user', '654654654', 'La Plata')`
 
-      await expect(client.query(query)).rejects.toThrow('invalid input syntax for type date')
+      await expect(client.query(query)).rejects.toThrow('date/time field value out of range: "654654654"')
+    })
+
+
+    test('Insert a user with an invalid birthdate', async () => {
+      const query = `INSERT INTO
+                     users (email, username, birthdate, city)
+                     VALUES ('user@example.com', 'user', '231231', 'La Plata')`
+
+      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "birthdate_invalid_format')
     })
 
 
@@ -233,7 +242,7 @@ describe('Test database', () => {
                      users (email, username, birthdate, city)
                      VALUES ('user@example.com', 'user', '2024-01-02', '4468')`
 
-      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "birthdate_numbers"')
+      await expect(client.query(query)).rejects.toThrow('new row for relation "users" violates check constraint "city_with_number"')
     })
 
   })

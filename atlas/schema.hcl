@@ -41,4 +41,13 @@ table "users" {
   check "username_length" {
     expr = "(length(username) > 3)"
   }
+
+  check "username_with_number" {
+    expr = "username !~ '[0-9]'"
+  }
+
+  check "city_with_number" {
+    expr = "city !~ '[0-9]'"
+  }
+
 }
